@@ -1,8 +1,8 @@
 //
 //  ContentView.swift
-//  Assignement1_images_shapes
+//  Assignment1_images_shapes
 //
-//  Created by Divyanshoo Sinha on 2025-01-27.
+//  Created by Divyanshoo Sinha and Kashish Yadav on 2025-01-27.
 //
 
 import SwiftUI
@@ -17,20 +17,39 @@ struct ContentView: View {
         .purple.opacity(0.3)
     ]
     
+    // Gradient background
+        private let gradient = LinearGradient(
+            gradient: Gradient(colors: [
+                Color(red: 0.26, green: 0.63, blue: 0.96),   // Soft blue
+                Color(red: 0.41, green: 0.35, blue: 0.80),   // Muted purple
+                Color(red: 0.22, green: 0.82, blue: 0.73)    // Fresh teal
+            ]),
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    
     var body: some View {
-        VStack {
-            imageGrid
-            
-            Button("Reshuffle Images") {
-                viewModel.reshuffleImages()
+        
+        ZStack {
+            // Full-screen gradient background
+            gradient
+                .ignoresSafeArea()
+            VStack {
+                imageGrid
+                
+                Button("Reshuffle Images") {
+                    viewModel.reshuffleImages()
+                }
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .padding(.bottom)
             }
-            .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(10)
-            .padding(.bottom)
         }
+       
     }
+    
     
     private var imageGrid: some View {
         VStack(spacing: 0) {
@@ -57,7 +76,7 @@ struct ContentView: View {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
-                    .padding(8)
+                    .padding(12) // Reduced padding for better spacing
                     .onTapGesture {
                         viewModel.toggleCheckmark(at: index)
                     }
@@ -73,5 +92,15 @@ struct ContentView: View {
                     .frame(width: 40, height: 40)
             }
         }
+        .aspectRatio(1, contentMode: .fit) // Ensure cell remains square
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Color.white, lineWidth: 4)
+        )
+        .padding(2) // Prevents border clipping
     }
+}
+
+#Preview {
+    ContentView()
 }

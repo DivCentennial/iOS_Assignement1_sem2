@@ -54,17 +54,22 @@ class ImageGridViewModel: ObservableObject {
         
         // Add new random images for unchecked positions
         while newImages.count < 4 {
-            guard let randomImageName = unusedImageNames.randomElement() else { break }
+            if unusedImageNames.isEmpty {
+                // Reset the pool with all images except currently kept ones
+                unusedImageNames = Set(allImageNames)
+                for image in newImages {
+                    unusedImageNames.remove(image.imageName)
+                }
+            }
+            
+            guard let randomImageName = unusedImageNames.randomElement() else {
+                // Fallback: If somehow all images are used, reset completely
+                unusedImageNames = Set(allImageNames)
+                continue
+            }
+            
             unusedImageNames.remove(randomImageName)
             newImages.append(ImageInfo(imageName: randomImageName, isChecked: false))
-        }
-        
-        // Reset unused images pool if needed
-        if unusedImageNames.isEmpty {
-            unusedImageNames = Set(allImageNames)
-            for image in newImages {
-                unusedImageNames.remove(image.imageName)
-            }
         }
         
         displayedImages = newImages
