@@ -1,4 +1,6 @@
-iOS assignement 
+iOS assignment 1
 
-By:
-Divyanshoo Sinha & Kashish Yadav 
+Assignment completed in team.
+
+Team members:
+Divyanshoo Sinha (student id: 301486627) & Kashish Yadav (student id: 301485842)
